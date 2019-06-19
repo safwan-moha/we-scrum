@@ -1,7 +1,8 @@
 const express = require('express');
 const puppeteer = require('puppeteer');
 const { process, readDB } = require('../utils/jiraUtils');
-// debugging: const { resp } = require('../utils/data');
+// debugging
+// const { resp } = require('../utils/data');
 
 const jiraRouter = express.Router()
 
@@ -19,7 +20,8 @@ jiraRouter.post('/getSprint', (req, res) => {
         await page.waitFor('#create_link');        
         await page.goto(`https://jira.leapset.com/rest/api/2/search?jql=sprint='${sprint}'`, {waitUntil: 'networkidle2'});
         const element = await page.$("body");
-        const resp = await page.evaluate(element => element.textContent, element);
+        const respRaw = await page.evaluate(element => element.textContent, element);
+        const resp = JSON.parse(respRaw);
         await browser.close();
         
         const linkObj = await readDB({ username, sprint });

@@ -6,10 +6,10 @@ export const CREATE_CLICKED = 'CREATE_CLICKED';
 export const CREATE_SUCCESS = 'CREATE_SUCCESS';
 export const CREATE_ERROR = 'CREATE_ERROR';
 
-const url = 'http://localhost:8000';
+const url = 'http://10.1.10.145:8000';
 
-export function login(dispatch, { username, password, sprint }) {
-  dispatch({ type: LOGIN_CLICKED, payload: { sprint, username } });
+export function login(dispatch, { username, email, password, sprint }) {
+  dispatch({ type: LOGIN_CLICKED, payload: { sprint, username, email } });
 
   const headers = new Headers({
     'content-type': 'application/json',
@@ -33,9 +33,10 @@ export function login(dispatch, { username, password, sprint }) {
     });
 }
 
-export function createExcel(dispatch, { username, sprint, ticketList }) {
+export function createExcel(dispatch, { username, email, sprint, ticketList }) {
   dispatch({ type: CREATE_CLICKED });
-
+  console.log('Sending excel creation call: ', username, email, sprint);
+  
   const headers = new Headers({
     'content-type': 'application/json',
   });
@@ -43,7 +44,7 @@ export function createExcel(dispatch, { username, sprint, ticketList }) {
   return fetch(`${url}/excel/createSheet`, {
     method: "POST",
     headers,
-    body: JSON.stringify({ username, data: ticketList, title: sprint })
+    body: JSON.stringify({ username, email, data: ticketList, title: sprint })
   })
     .then(function (response) {
       return response.json();

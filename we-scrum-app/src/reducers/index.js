@@ -9,7 +9,7 @@ let initialState = { ticketList: [], logged: false }
 const login = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_CLICKED:
-      return Object.assign({}, state, { sprint: action.payload.sprint, username: action.payload.username, loading: true, ticketList: [], error: '' })
+      return Object.assign({}, state, { sprint: action.payload.sprint, username: action.payload.username, email: action.payload.email, loading: true, ticketList: [], error: '' })
     case LOGIN_SUCCESS:
       return Object.assign({}, state, { logged: true, ticketList: action.payload.jira, link: action.payload.link, loading: false })
     case LOGIN_ERROR:

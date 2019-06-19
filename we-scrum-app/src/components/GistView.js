@@ -45,7 +45,7 @@ const styles = theme => ({
 });
 
 const GistView = (props) => {
-  const { classes, ticketList, loading, logged, link, createExcel, sprint, username } = props;
+  const { classes, ticketList, loading, logged, link, createExcel, sprint, email, username } = props;
 
   return (
     <React.Fragment>
@@ -73,7 +73,7 @@ const GistView = (props) => {
           {logged
             ? ticketList.length > 0
               ? <div>
-                <ButtonsCard link={link} createExcel={() => createExcel({ ticketList, sprint, username })} />
+                <ButtonsCard link={link} createExcel={() => createExcel({ ticketList, sprint, username, email })} />
                 <ResultCard ticketList={ticketList} />
               </div>
               : <div className={classes.defaultText}>{'No any matches'}</div>

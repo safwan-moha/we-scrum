@@ -19,11 +19,12 @@ const process = (resp) => {
   return [];
 }
 
-const convertJiraData = (tickets, title) => {
+const convertJiraData = (tickets, title, email) => {
   if (tickets) {
     const ticketsArray = tickets.map(t => ([t.num, t.summary, t.assignee, t.status]))
     return {
-      title: title,
+      title,
+      email,
       range: 'A1:D' + (tickets.length + 1),
       rows: tickets.length,
       values: [['NUMBER', 'SUMMARY', 'ASSIGNEE', 'STATUS'], ...ticketsArray]

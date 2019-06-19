@@ -5,8 +5,9 @@ import { createExcel } from '../actions'
 const mapStateToProps = (state, ownProps) => {
   return {
     ticketList: state.login.ticketList || [],
-    username: state.login.username || [],
-    sprint: state.login.sprint || [],
+    username: state.login.username || '',
+    email: state.login.email || '',
+    sprint: state.login.sprint || '',
     loading: state.login.loading || false,
     logged: state.login.logged || false,
     link: state.login.link || null

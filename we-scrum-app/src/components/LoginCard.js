@@ -36,7 +36,8 @@ class LoginCard extends React.Component {
         super(props);
         this.state = {
             username: 'safwanm',
-            password: '1qazxsw2',
+            email: 'safwanmoha@gmail.com',
+            password: '',
             sprint: 'Titans - Sprint 10'
         }
     }
@@ -48,7 +49,7 @@ class LoginCard extends React.Component {
 
     render() {
         const { classes, error, onLoginClicked } = this.props;
-        const { username, password, sprint } = this.state;
+        const { username, email, password, sprint } = this.state;
 
         return (
             <div className={classes.paper}>
@@ -70,6 +71,19 @@ class LoginCard extends React.Component {
                         label="Jira Username"
                         name="username"
                         autoComplete="username"
+                        autoFocus
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        value={email}
+                        onChange={this.handleChange('email')}
+                        id="email"
+                        label="Email"
+                        name="email"
+                        autoComplete="email"
                         autoFocus
                     />
                     <TextField
@@ -104,7 +118,7 @@ class LoginCard extends React.Component {
                     />
                     <Button
                         fullWidth
-                        onClick={() => onLoginClicked({ username, password, sprint })}
+                        onClick={() => onLoginClicked({ username, email, password, sprint })}
                         variant="contained"
                         color="primary"
                         className={classes.submit}

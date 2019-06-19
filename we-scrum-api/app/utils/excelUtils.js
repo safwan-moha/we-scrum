@@ -2,7 +2,7 @@ const fs = require('fs');
 const readline = require('readline');
 const { google } = require('googleapis');
 
-const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
+const SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive'];
 const TOKEN_PATH = 'token.json';
 
 const createExcel = (jiraData) => new Promise((resolve, reject) => {
@@ -52,6 +52,7 @@ function getNewToken(oAuth2Client, jiraData, callback) {
 
 function create(auth, jiraData, resolve, reject) {
   const sheets = google.sheets({ version: 'v4', auth });
+  const drive = google.drive({ version: 'v3', auth });
   const resource = {
     properties: {
       title: jiraData.title,
@@ -120,6 +121,21 @@ function create(auth, jiraData, resolve, reject) {
     sheets.spreadsheets.batchUpdate({
       spreadsheetId: res.data.spreadsheetId,
       resource: { requests }
+    });
+    drive.permissions.create({
+      resource: {
+        'type': 'user',
+        'role': 'writer',
+        'emailAddress': jiraData.email
+      },
+      fileId: res.data.spreadsheetId,
+      fields: 'id',
+    }, (err, res) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log('Permission ID: ', res.id)
+      }
     });
     return resolve('https://docs.google.com/spreadsheets/d/' + res.data.spreadsheetId);
   });
